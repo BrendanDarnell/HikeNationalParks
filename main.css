@@ -1,0 +1,25 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	text-align: center;
+}
+
+section {
+	border: 1px solid grey;
+	width: 100%;
+
+}
+
+ul {
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	list-style: inside;
+}
+
+li {
+	text-align: left;
+	padding-left: 35%;
+}
