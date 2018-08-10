@@ -10,6 +10,7 @@ const WEATHER_URL= 'https://api.openweathermap.org/data/2.5/weather';
 
 const WEATHER_KEY= '771f6d345b25dcb9c8322ae68cb87192'
 
+
 function getParkData(parkName){
   query = {
     q: parkName,
@@ -83,9 +84,17 @@ function renderTrailInfo(data){
           <li>Status: ${trail.conditionStatus}</li>
           <li>Status: ${trail.conditionDetails}</li>
         </ul>
-      </section>`
-    );
-  });
+      </section>`);
+ });
+
+    $('.park').append(
+      `<h3>Weather:</h3>
+       <img src="http://openweathermap.org/img/w/${data.weather.icon}.png">
+       <ul>
+        <li>Temp: ${data.weather.temp}°F</li>
+        <li>Wind: ${data.weather.wind}mph</li>
+        <li>Conditions: ${data.weather.conditions}</li>
+        `);
 }
 
 
