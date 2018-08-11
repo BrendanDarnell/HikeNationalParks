@@ -6,7 +6,10 @@ const HIKING_URL= 'https://www.hikingproject.com/data/get-trails';
 
 const HIKING_KEY= '200327700-d3521df4d4b42d0d77bf4b4d0ba20637';
 
-// const WEATHER_URL= 'https://samples.openweathermap.org/data/2.5/weather';
+const WEATHER_URL= 'https://api.openweathermap.org/data/2.5/weather';
+
+const WEATHER_KEY= '771f6d345b25dcb9c8322ae68cb87192'
+
 
 function getParkData(parkName){
   query = {
@@ -39,21 +42,27 @@ function renderParkInfo(parkObject){
 function getLatLon(parkObject){
   let latLon = parkObject.latLong;
   latLon=latLon.split(',');
-  return latLon;
+  return {"lat": latLon[0].trim().slice(4), 
+    "lon": latLon[1].trim().slice(5)};
 }
 
 
-function getTrailData(latLon){
-  lat= latLon[0].trim().slice(4);
-  lon= latLon[1].trim().slice(5);
-  
+function getTrailData(weatherData){
   query={
-    'lat': lat,
-    'lon': lon,
+    'lat': weatherData.coord.lat,
+    'lon': weatherData.coord.lon,
     key: HIKING_KEY,
   }
   
-  return $.getJSON(HIKING_URL,query);
+  return $.getJSON(HIKING_URL,query)
+  .then(function(results){
+    results.weather= {temp: weatherData.main.temp,
+      conditions: weatherData.weather[0].description,
+      icon: weatherData.weather[0].icon,
+      wind: weatherData.wind.speed,
+       };
+      return results;
+  })
 }
 
 
@@ -75,13 +84,31 @@ function renderTrailInfo(data){
           <li>Status: ${trail.conditionStatus}</li>
           <li>Status: ${trail.conditionDetails}</li>
         </ul>
-      </section>`
-    );
-  });
+      </section>`);
+ });
+
+    $('.park').append(
+      `<h3>Weather:</h3>
+       <img src="http://openweathermap.org/img/w/${data.weather.icon}.png">
+       <ul>
+        <li>Temp: ${data.weather.temp}°F</li>
+        <li>Wind: ${data.weather.wind}mph</li>
+        <li>Conditions: ${data.weather.conditions}</li>
+        `);
 }
 
 
-// function getWeatherData(LatLon)
+function getWeatherData(latLon){
+  query={
+    'lat': latLon.lat,
+    'lon': latLon.lon,
+    appid: WEATHER_KEY,
+    units: 'imperial',
+  }
+
+  return $.getJSON(WEATHER_URL,query);
+ 
+}
 
 
 function handleUserSearch(){
@@ -91,14 +118,15 @@ function handleUserSearch(){
     getParkData(parkName)
       .then(createParkObject)
       .done(renderParkInfo)
-      .done(data=>console.log(data))
       .then(getLatLon)
+      .then(getWeatherData)
       .done(data=>console.log(data))
       .then(getTrailData)
+      .done(data=>console.log(data))
       .done(renderTrailInfo)
       .done(data=>console.log(data));
   });
 }
 
 
-$(handleUserSearch)
+$(handleUserSearch);
