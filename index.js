@@ -15,6 +15,7 @@ function getParkData(parkName){
   query = {
     q: parkName,
     api_key: NPS_KEY,
+    fields: 'images,entranceFees',
   }
   return $.getJSON(NPS_URL,query);    
 }
@@ -34,7 +35,23 @@ function createParkObject(parks){
 function renderParkInfo(parkObject){
   $('main').append(
     `<section class="park">
-    <h2>${parkObject.fullName}</h2>
+      <h2>${parkObject.fullName}</h2>
+
+      <h3>Park Info:</h3>
+      <ul class="parkInfo">
+        <li>Entrance Fee:</li>
+          <ul>
+            <li>Price: $${parkObject.entranceFees[0].cost}</li>
+            <li>Description: ${parkObject.entranceFees[0].description}</li>
+          </ul>
+        <li>Links:</li>
+          <ul>
+            <li><a href='${parkObject.url}'>Park Website</a></li>
+            <li><a href='${parkObject.directionsUrl}'>Directions to Park</a></li>
+          </ul>
+      </ul>
+
+      <img src="${parkObject.images[0].url}" alt="${parkObject.images[0].altText}">
     </section>`)
 }
 
@@ -78,16 +95,18 @@ function renderTrailInfo(data){
         <h3>Info:</h3>
         <ul>
           <li>length: ${trail.length} miles</li>
-          <li>High: ${trail.high} ft.</li>
-          <li>Low: ${trail.low} ft.</li>
+          <li>Highest Elevation: ${trail.high} ft.</li>
+          <li>Lowest Elevation: ${trail.low} ft.</li>
           <li>Difficulty: ${trail.difficulty}</li>
-          <li>Status: ${trail.conditionStatus}</li>
-          <li>Status: ${trail.conditionDetails}</li>
+          <li>Trail Status: ${trail.conditionStatus}</li>
+          <li>Trail Condition: ${trail.conditionDetails}</li>
         </ul>
+
+        <img src="${trail.imgMedium}" alt="${trail.name}">
       </section>`);
  });
 
-    $('.park').append(
+    $('.park ul.parkInfo').append(
       `<h3>Weather:</h3>
        <img src="http://openweathermap.org/img/w/${data.weather.icon}.png">
        <ul>
@@ -114,9 +133,12 @@ function getWeatherData(latLon){
 function handleUserSearch(){
   $('button').on('click',function(event){
     event.preventDefault();
+    $('main').children().remove();
     let parkName= $('input').val();
+    $('input').val('');
     getParkData(parkName)
       .then(createParkObject)
+      .done(data=>console.log(data))
       .done(renderParkInfo)
       .then(getLatLon)
       .then(getWeatherData)
