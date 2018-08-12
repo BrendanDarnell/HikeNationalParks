@@ -34,12 +34,12 @@ function createParkObject(parks){
 
 function renderParkInfo(parkObject){
   $('main').append(
-    `<div class="row">
-      <section class="park">
+    `<section class="park">
+      <div class="row">  
         
         <h2>${parkObject.fullName}</h2>
         <div class="col-1 image">
-          <img src="${parkObject.images[0].url}" alt="${parkObject.images[0].altText}">
+          <img class="parkImage" src="${parkObject.images[0].url}" alt="${parkObject.images[0].altText}">
         </div>
         
         <div class="col-2 parkInfo">
@@ -59,8 +59,10 @@ function renderParkInfo(parkObject){
         </div>
         
         <div class="col-2 weatherInfo"></div>
-      </section>
-    </div>`)
+      </div>
+    </section>`)
+
+  // $('div .parkImage').css('background-image',url(''))
 }
 
 
@@ -94,9 +96,13 @@ function getTrailData(weatherData){
 function renderTrailInfo(data){
   data.trails.map(function(trail,index){
     $('main').append(
-      `<div class="row">
-        <section class="trail" name="trail-${index+1}">
+      `<section class="trail" name="trail-${index+1}">
+        <div class="row">
           <h2>${trail.name}</h2>
+
+          <div class="col-2">
+            <img class="trailImage" src="${trail.imgMedium}" alt="${trail.name}">
+          </div>
 
           <div class="col-2">
            <h3>Summary:</h3> 
@@ -112,12 +118,8 @@ function renderTrailInfo(data){
               <li>Trail Condition: ${trail.conditionDetails}</li>
             </ul>
           </div>
-
-          <div class="col-2 image">
-            <img src="${trail.imgMedium}" alt="${trail.name}">
-          </div>
-        </section>
-      </div>`);
+        </div>
+      </section>`);
  });
 
     $('.park div.weatherInfo').append(

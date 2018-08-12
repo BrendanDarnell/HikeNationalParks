@@ -4,6 +4,7 @@
 
 body {
 	text-align: center;
+	margin: 2%;
 }
 
 section {
@@ -22,4 +23,15 @@ ul {
 li {
 	text-align: left;
 	padding-left: 35%;
+}
+
+div{
+	width: 100%;
+	margin: 0;
+}
+
+.parkImage, .trailImage {
+	max-width: 100%;
+	max-height: 50%;
+	object-fit: cover;
 }

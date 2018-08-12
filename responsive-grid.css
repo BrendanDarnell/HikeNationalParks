@@ -1,6 +1,6 @@
 [class*="col-"] {
   float: left;
-  padding: 2%;
+  /*padding: 2%;*/
   border: 1px solid red;
 }
 
@@ -10,7 +10,17 @@
   display: table;
 }
 
+.row {
+	width: 100%;
+}
+
 .col-1, .col-2 {
 	width: 100%;
-	height: auto;
+	/*height: auto;*/
+}
+
+@media screen and (min-width: 760px) {
+	.col-2 {
+		width: 50%;
+	}
 }
