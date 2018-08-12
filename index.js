@@ -34,25 +34,33 @@ function createParkObject(parks){
 
 function renderParkInfo(parkObject){
   $('main').append(
-    `<section class="park">
-      <h2>${parkObject.fullName}</h2>
-
-      <h3>Park Info:</h3>
-      <ul class="parkInfo">
-        <li>Entrance Fee:</li>
+    `<div class="row">
+      <section class="park">
+        
+        <h2>${parkObject.fullName}</h2>
+        <div class="col-1 image">
+          <img src="${parkObject.images[0].url}" alt="${parkObject.images[0].altText}">
+        </div>
+        
+        <div class="col-2 parkInfo">
+          <h3>Park Info:</h3>
           <ul>
-            <li>Price: $${parkObject.entranceFees[0].cost}</li>
-            <li>Description: ${parkObject.entranceFees[0].description}</li>
+            <li>Entrance Fee:</li>
+              <ul>
+                <li>Price: $${parkObject.entranceFees[0].cost}</li>
+                <li>Description: ${parkObject.entranceFees[0].description}</li>
+              </ul>
+            <li>Links:</li>
+              <ul>
+                <li><a href='${parkObject.url}'>Park Website</a></li>
+                <li><a href='${parkObject.directionsUrl}'>Directions to Park</a></li>
+              </ul>
           </ul>
-        <li>Links:</li>
-          <ul>
-            <li><a href='${parkObject.url}'>Park Website</a></li>
-            <li><a href='${parkObject.directionsUrl}'>Directions to Park</a></li>
-          </ul>
-      </ul>
-
-      <img src="${parkObject.images[0].url}" alt="${parkObject.images[0].altText}">
-    </section>`)
+        </div>
+        
+        <div class="col-2 weatherInfo"></div>
+      </section>
+    </div>`)
 }
 
 
@@ -86,34 +94,40 @@ function getTrailData(weatherData){
 function renderTrailInfo(data){
   data.trails.map(function(trail,index){
     $('main').append(
-      `<section class="trail" name="trail-${index+1}">
-        <h2>${trail.name}</h2>
-        
-        <h3>Summary:</h3> 
-        <p>${trail.summary}</p> 
-          
-        <h3>Info:</h3>
-        <ul>
-          <li>length: ${trail.length} miles</li>
-          <li>Highest Elevation: ${trail.high} ft.</li>
-          <li>Lowest Elevation: ${trail.low} ft.</li>
-          <li>Difficulty: ${trail.difficulty}</li>
-          <li>Trail Status: ${trail.conditionStatus}</li>
-          <li>Trail Condition: ${trail.conditionDetails}</li>
-        </ul>
+      `<div class="row">
+        <section class="trail" name="trail-${index+1}">
+          <h2>${trail.name}</h2>
 
-        <img src="${trail.imgMedium}" alt="${trail.name}">
-      </section>`);
+          <div class="col-2">
+           <h3>Summary:</h3> 
+            <p>${trail.summary}</p> 
+            
+            <h3>Info:</h3>
+            <ul>
+              <li>length: ${trail.length} miles</li>
+              <li>Highest Elevation: ${trail.high} ft.</li>
+              <li>Lowest Elevation: ${trail.low} ft.</li>
+              <li>Difficulty: ${trail.difficulty}</li>
+              <li>Trail Status: ${trail.conditionStatus}</li>
+              <li>Trail Condition: ${trail.conditionDetails}</li>
+            </ul>
+          </div>
+
+          <div class="col-2 image">
+            <img src="${trail.imgMedium}" alt="${trail.name}">
+          </div>
+        </section>
+      </div>`);
  });
 
-    $('.park ul.parkInfo').append(
+    $('.park div.weatherInfo').append(
       `<h3>Weather:</h3>
        <img src="http://openweathermap.org/img/w/${data.weather.icon}.png">
        <ul>
         <li>Temp: ${data.weather.temp}°F</li>
         <li>Wind: ${data.weather.wind}mph</li>
         <li>Conditions: ${data.weather.conditions}</li>
-        `);
+       </ul>`);
 }
 
 

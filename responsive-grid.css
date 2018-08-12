@@ -1,0 +1,16 @@
+[class*="col-"] {
+  float: left;
+  padding: 2%;
+  border: 1px solid red;
+}
+
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.col-1, .col-2 {
+	width: 100%;
+	height: auto;
+}
