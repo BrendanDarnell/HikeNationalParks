@@ -14,13 +14,16 @@
 	width: 100%;
 }
 
-.col-1, .col-2 {
+.col-1, .col-2, .col-3 {
 	width: 100%;
-	/*height: auto;*/
 }
 
 @media screen and (min-width: 760px) {
 	.col-2 {
 		width: 50%;
+	}
+
+	.col-3 {
+		width: 33.33%;
 	}
 }

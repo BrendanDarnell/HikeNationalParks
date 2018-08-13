@@ -2,9 +2,35 @@
 	box-sizing: border-box;
 }
 
+html {
+	margin-top: 0;
+}
+
 body {
 	text-align: center;
-	margin: 2%;
+	margin-top: 0;
+	margin-left: 2%;
+	margin-right: 2%;
+	background-color: grey;
+}
+
+header {
+	background-color: black;
+	color: white;
+	height: 50vh;
+	width: 100vw;
+	margin-left: -2.1%;
+}
+
+h1 {
+	margin-top: 0;
+	padding-top: 1%;
+}
+
+input {
+	width: 20%;
+	color: black;
+	margin-top: 30vh;
 }
 
 section {
@@ -14,15 +40,16 @@ section {
 }
 
 ul {
-	width: 50%;
-	margin-left: auto;
-	margin-right: auto;
-	list-style: inside;
+	width: 100%;
+	/*margin-left: auto;
+	margin-right: auto;*/
+	/*list-style: inside;*/
+	list-style: none;
 }
 
 li {
 	text-align: left;
-	padding-left: 35%;
+	/*padding-left: 35%;*/
 }
 
 div{
@@ -31,7 +58,25 @@ div{
 }
 
 .parkImage, .trailImage {
-	max-width: 100%;
-	max-height: 50%;
+	width: 100%;
+	height: 100%;
 	object-fit: cover;
+}
+
+.image {
+	height: 50vh;
+	max-height: 100%;
+}
+
+.weatherInfo li {
+	text-align: center;
+}
+
+.weatherInfo ul {
+	padding: 0;
+}
+
+.weatherIcon {
+	width: 15%;
+	background-color: white;
 }

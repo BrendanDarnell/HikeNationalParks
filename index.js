@@ -35,13 +35,21 @@ function createParkObject(parks){
 function renderParkInfo(parkObject){
   $('main').append(
     `<section class="park">
-      <div class="row">  
-        
-        <h2>${parkObject.fullName}</h2>
-        <div class="col-1 image">
+      <h2>${parkObject.fullName}</h2>
+
+      <div class="row"> 
+        <div class="col-3 image">
           <img class="parkImage" src="${parkObject.images[0].url}" alt="${parkObject.images[0].altText}">
         </div>
-        
+        <div class="col-3 image">
+          <img class="parkImage" src="${parkObject.images[1].url}" alt="${parkObject.images[1].altText}">
+        </div>
+        <div class="col-3 image">
+          <img class="parkImage" src="${parkObject.images[2].url}" alt="${parkObject.images[2].altText}">
+        </div>
+      </div>
+      
+      <div class="row">   
         <div class="col-2 parkInfo">
           <h3>Park Info:</h3>
           <ul>
@@ -62,7 +70,7 @@ function renderParkInfo(parkObject){
       </div>
     </section>`)
 
-  // $('div .parkImage').css('background-image',url(''))
+  // $('h1').css('background-image', `url(${parkObject.images[0].url})`);
 }
 
 
@@ -96,9 +104,10 @@ function getTrailData(weatherData){
 function renderTrailInfo(data){
   data.trails.map(function(trail,index){
     $('main').append(
-      `<section class="trail" name="trail-${index+1}">
+      `<section class="trail" name="trail-${index+1}"> 
+        <h2>${trail.name}</h2>
+        
         <div class="row">
-          <h2>${trail.name}</h2>
 
           <div class="col-2">
             <img class="trailImage" src="${trail.imgMedium}" alt="${trail.name}">
@@ -124,7 +133,7 @@ function renderTrailInfo(data){
 
     $('.park div.weatherInfo').append(
       `<h3>Weather:</h3>
-       <img src="http://openweathermap.org/img/w/${data.weather.icon}.png">
+       <img class="weatherIcon" alt="weather icon" src="http://openweathermap.org/img/w/${data.weather.icon}.png">
        <ul>
         <li>Temp: ${data.weather.temp}°F</li>
         <li>Wind: ${data.weather.wind}mph</li>
