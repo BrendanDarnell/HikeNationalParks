@@ -33,21 +33,12 @@ function createParkObject(parks){
 
 
 function renderParkInfo(parkObject){
+  $('.parkImageDiv').append(
+    `<img class="parkImage" src="${parkObject.images[0].url}" alt="${parkObject.images[0].altText}">`)
+
   $('main').append(
     `<section class="park">
       <h2>${parkObject.fullName}</h2>
-
-      <div class="row"> 
-        <div class="col-3 image">
-          <img class="parkImage" src="${parkObject.images[0].url}" alt="${parkObject.images[0].altText}">
-        </div>
-        <div class="col-3 image">
-          <img class="parkImage" src="${parkObject.images[1].url}" alt="${parkObject.images[1].altText}">
-        </div>
-        <div class="col-3 image">
-          <img class="parkImage" src="${parkObject.images[2].url}" alt="${parkObject.images[2].altText}">
-        </div>
-      </div>
       
       <div class="row">   
         <div class="col-2 parkInfo">
@@ -69,6 +60,18 @@ function renderParkInfo(parkObject){
         <div class="col-2 weatherInfo"></div>
       </div>
     </section>`)
+
+  // <div class="row"> 
+      //   <div class="col-3 image">
+      //     <img class="parkImage" src="${parkObject.images[0].url}" alt="${parkObject.images[0].altText}">
+      //   </div>
+      //   <div class="col-3 image">
+      //     <img class="parkImage" src="${parkObject.images[1].url}" alt="${parkObject.images[1].altText}">
+      //   </div>
+      //   <div class="col-3 image">
+      //     <img class="parkImage" src="${parkObject.images[2].url}" alt="${parkObject.images[2].altText}">
+      //   </div>
+      // </div>
 
   // $('h1').css('background-image', `url(${parkObject.images[0].url})`);
 }
