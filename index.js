@@ -135,13 +135,15 @@ function renderTrailInfo(data){
  });
 
     $('.park div.weatherInfo').append(
-      `<h3>Weather:</h3>
-       <img class="weatherIcon" alt="weather icon" src="http://openweathermap.org/img/w/${data.weather.icon}.png">
-       <ul>
-        <li>Temp: ${data.weather.temp}°F</li>
-        <li>Wind: ${data.weather.wind}mph</li>
-        <li>Conditions: ${data.weather.conditions}</li>
-       </ul>`);
+      `<h3>Weather</h3>
+        <div class="weatherBorder">
+         <img class="weatherIcon" alt="weather icon" src="http://openweathermap.org/img/w/${data.weather.icon}.png">
+         <ul>
+          <li><span class="temp">${data.weather.temp}°F</span></li>
+          <li>Wind: ${data.weather.wind}mph</li>
+          <li>Conditions: ${data.weather.conditions}</li>
+         </ul>
+        </div>`);
 }
 
 
