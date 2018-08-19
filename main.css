@@ -28,6 +28,7 @@ header {
 	margin-left: -2%;
 	position: relative;
 	margin-bottom: 6%;
+	min-height: 350px;
 }
 
 h1 {
@@ -37,9 +38,6 @@ h1 {
 	color: #A2C423;
 }
 
-button{
-	color: black;
-}
 
 h2 {
 	font-size: 1.25em;
@@ -60,45 +58,49 @@ h2 {
 form{
 	height: 10%;
 	width: 100%;
-	/*position: absolute;
-	bottom: 0;*/
 }
 
 label {
 	display: block;
-
 }
 
 button {
 	height: 50%;
+	color: black;
+	border: 3px solid color: white;
+	border-left: none;
+	background-color: #CAB5AD; 
+	border-style: none;
+	border-radius: 0 10px 10px 0;
 }
 
 input {
 	width: 40%;
 	height: 50%;
 	color: black;
-	/*margin-top: 60vh;*/
 	min-width: 230px;
+	border: 2px solid color: #CAB5AD; 
+	border-style: none;
+	border-radius: 10px 0 0 10px;
+}
+
+.searchbar {
+	font-size: 0;
+	height: 100%;
+	width: 100%;
 }
 
 section {
 	border-top: 1px solid #D4A259;
 	width: 100%;
-
 }
 
 ul {
 	width: 100%;
-	/*margin-left: auto;
-	margin-right: auto;*/
-	/*list-style: inside;*/
+	margin-left: auto;
+	margin-right: auto;
 	list-style: none;
-	padding-left: 2%;
-}
-
-li {
-	text-align: left;
-	/*padding-left: 35%;*/
+	padding: 0;
 }
 
 div{
@@ -118,9 +120,8 @@ div{
 	border-bottom: solid 7px black;
 }
 
-.image {
-	height: 50vh;
-	max-height: 100%;
+.parkImage {
+	max-height: 500px;
 }
 
 .weatherInfo li {
@@ -150,4 +151,9 @@ div{
 
 .temp {
 	font-size: 1.25em;
+}
+
+.trailInfo {
+	color: #7C4326;
+	font-weight: 600;
 }

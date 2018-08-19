@@ -18,7 +18,7 @@
 	width: 100%;
 }
 
-@media screen and (min-width: 760px) {
+@media screen and (min-width: 900px) {
 	.col-2 {
 		width: 50%;
 	}
@@ -42,6 +42,11 @@
 
 	.parkInfo {
 		border-right: dashed 1px #D4A259;
+		padding-right: 4%;
+	}
+
+	.trailDiv {
+		padding-left: 4%;
 	}
 
 	header {
@@ -50,5 +55,9 @@
 
 	.weatherBorder {
 	max-width: 55%;
+	}
+
+	button {
+		width: 3%;
 	}
 }

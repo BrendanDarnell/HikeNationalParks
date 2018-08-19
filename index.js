@@ -42,38 +42,17 @@ function renderParkInfo(parkObject){
       
       <div class="row">   
         <div class="col-2 parkInfo">
-          <h3>Park Info:</h3>
-          <ul>
-            <li>Entrance Fee:</li>
-              <ul>
-                <li>Price: $${parkObject.entranceFees[0].cost}</li>
-                <li>Description: ${parkObject.entranceFees[0].description}</li>
-              </ul>
-            <li>Links:</li>
-              <ul>
-                <li><a href='${parkObject.url}'>Park Website</a></li>
-                <li><a href='${parkObject.directionsUrl}'>Directions to Park</a></li>
-              </ul>
-          </ul>
+          <h3>Park Info</h3>
+          
+            <p><span class="trailInfo">Entrance Fee:</span> $${parkObject.entranceFees[0].cost}</p>
+            <p>${parkObject.entranceFees[0].description}</p>
+            <p><a href='${parkObject.url}'>Park Website</a><br>
+            <a href='${parkObject.directionsUrl}'>Directions to Park</a></p>    
         </div>
         
         <div class="col-2 weatherInfo"></div>
       </div>
     </section>`)
-
-  // <div class="row"> 
-      //   <div class="col-3 image">
-      //     <img class="parkImage" src="${parkObject.images[0].url}" alt="${parkObject.images[0].altText}">
-      //   </div>
-      //   <div class="col-3 image">
-      //     <img class="parkImage" src="${parkObject.images[1].url}" alt="${parkObject.images[1].altText}">
-      //   </div>
-      //   <div class="col-3 image">
-      //     <img class="parkImage" src="${parkObject.images[2].url}" alt="${parkObject.images[2].altText}">
-      //   </div>
-      // </div>
-
-  // $('h1').css('background-image', `url(${parkObject.images[0].url})`);
 }
 
 
@@ -117,18 +96,20 @@ function renderTrailInfo(data){
           </div>
 
           <div class="col-2">
-           <h3>Summary:</h3> 
-            <p>${trail.summary}</p> 
-            
-            <h3>Info:</h3>
-            <ul>
-              <li>length: ${trail.length} miles</li>
-              <li>Highest Elevation: ${trail.high} ft.</li>
-              <li>Lowest Elevation: ${trail.low} ft.</li>
-              <li>Difficulty: ${trail.difficulty}</li>
-              <li>Trail Status: ${trail.conditionStatus}</li>
-              <li>Trail Condition: ${trail.conditionDetails}</li>
-            </ul>
+            <div class="trailDiv">
+             <h3>Summary</h3> 
+              <p>${trail.summary}</p> 
+              
+              <h3>Info</h3>
+              <ul>
+                <li><span class="trailInfo">Length:</span> ${trail.length} miles</li>
+                <li><span class="trailInfo">Highest Elevation:</span> ${trail.high} ft.</li>
+                <li><span class="trailInfo">Lowest Elevation:</span> ${trail.low} ft.</li>
+                <li><span class="trailInfo">Difficulty:</span> ${trail.difficulty}</li>
+                <li><span class="trailInfo">Trail Status:</span> ${trail.conditionStatus}</li>
+                <li><span class="trailInfo">Trail Condition:</span> ${trail.conditionDetails}</li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>`);
@@ -140,8 +121,8 @@ function renderTrailInfo(data){
          <img class="weatherIcon" alt="weather icon" src="http://openweathermap.org/img/w/${data.weather.icon}.png">
          <ul>
           <li><span class="temp">${data.weather.temp}°F</span></li>
-          <li>Wind: ${data.weather.wind}mph</li>
-          <li>Conditions: ${data.weather.conditions}</li>
+          <li><span class="trailInfo">Wind:</span> ${data.weather.wind}mph</li>
+          <li><span class="trailInfo">Conditions:</span> ${data.weather.conditions}</li>
          </ul>
         </div>`);
 }
@@ -163,6 +144,7 @@ function getWeatherData(latLon){
 function handleUserSearch(){
   $('button').on('click',function(event){
     event.preventDefault();
+    $('.parkImageDiv').children().remove();
     $('main').children().remove();
     let parkName= $('input').val();
     $('input').val('');
