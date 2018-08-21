@@ -37,7 +37,7 @@ function renderParkInfo(parkObject){
     `<img class="parkImage" src="${parkObject.images[0].url}" alt="${parkObject.images[0].altText}">`)
 
   $('main').append(
-    `<section class="park">
+    `<section class="park" role="region">
       <h2>${parkObject.fullName}</h2>
       
       <div class="row">   
@@ -86,7 +86,7 @@ function getTrailData(weatherData){
 function renderTrailInfo(data){
   data.trails.map(function(trail,index){
     $('main').append(
-      `<section class="trail" name="trail-${index+1}"> 
+      `<section class="trail" name="trail-${index+1}" role="region"> 
         <h2>${trail.name}</h2>
         
         <div class="row">
@@ -145,6 +145,7 @@ function handleUserSearch(){
   $('button').on('click',function(event){
     event.preventDefault();
     $('.parkImageDiv').children().remove();
+    $('main').prop('hidden',false);
     $('main').children().remove();
     let parkName= $('input').val();
     $('input').val('');
