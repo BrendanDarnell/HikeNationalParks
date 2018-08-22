@@ -22,7 +22,7 @@ body {
 
 header {
 	color: white;
-	height: 75vh;
+	height: 20vh;
 	width: 104%;
 	margin-left: -2%;
 	position: relative;
@@ -150,4 +150,15 @@ div{
 .trailInfo {
 	color: #D4A259;
 	font-weight: 600;
+}
+
+.fa-tree {
+	color: #A2C423; 
+	/*float: left;
+	margin-left: 3%;*/
+}
+
+.fail{
+	color: red;
+	font-size: 1.5em;
 }

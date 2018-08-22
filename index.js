@@ -33,12 +33,13 @@ function createParkObject(parks){
 
 
 function renderParkInfo(parkObject){
-  $('.parkImageDiv').append(
-    `<img class="parkImage" src="${parkObject.images[0].url}" alt="${parkObject.images[0].altText}">`)
-
   $('main').append(
     `<section class="park" role="region">
       <h2>${parkObject.fullName}</h2>
+      <div class="parkImageDiv">
+        <img class="parkImage" src="${parkObject.images[0].url}" alt="${parkObject.images[0].altText}">
+      </div>
+
       
       <div class="row">   
         <div class="col-2 parkInfo">
@@ -137,8 +138,26 @@ function getWeatherData(latLon){
   }
 
   return $.getJSON(WEATHER_URL,query);
- 
 }
+
+
+function failPark(){
+  $('.parkImageDiv').addClass('fail').append('Failed to load park information');
+}
+
+function failTrail(){
+  $('main').addClass('fail').append('Failed to load trail information');
+}
+
+// function failWeather(){
+//   $('.weatherInfo').append('Weather unavailable');
+//   let weatherData = {
+//     coord: 
+//   }
+//   return ;
+// }
+
+
 
 
 function handleUserSearch(){
@@ -150,16 +169,14 @@ function handleUserSearch(){
     let parkName= $('input').val();
     $('input').val('');
     getParkData(parkName)
+      .fail(failPark)
       .then(createParkObject)
-      .done(data=>console.log(data))
       .done(renderParkInfo)
       .then(getLatLon)
       .then(getWeatherData)
-      .done(data=>console.log(data))
       .then(getTrailData)
-      .done(data=>console.log(data))
-      .done(renderTrailInfo)
-      .done(data=>console.log(data));
+      .fail(failTrail)
+      .done(renderTrailInfo);
   });
 }
 

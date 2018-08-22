@@ -13,20 +13,20 @@
 <body>
 	
 	<header role="banner">	
-		<h1>Hike My National Parks</h1>
+		<h1><span class="fa fa-tree"></span>&nbspHike My National Parks</h1>
 		
 		<form>
-			<label for="search">Search National Parks</label>
+			<label for="search">Search National Parks for Hiking Trails</label>
 			<div class="searchbar">
 			<input type="search" id="search" placeholder="i.e. Rocky Mountain National Park">
 			<button type="submit" aria-label="search button"><span class="fa fa-search fa-lg"></span></button>
 			</div>
 		</form>
 
-		<div class="parkImageDiv"><img class="parkImage" src="yellowstone.jpg"></div>
 	</header>
 
-	<main role="main" aria-live="polite" hidden>
+	<main role="main" aria-live="polite">
+		<div class="parkImageDiv"><img class="parkImage" src="yellowstone.jpg"></div>
 	</main>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="	crossorigin="anonymous"></script>
