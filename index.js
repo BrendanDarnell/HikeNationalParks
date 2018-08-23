@@ -8,7 +8,7 @@ const HIKING_KEY= '200327700-d3521df4d4b42d0d77bf4b4d0ba20637';
 
 const WEATHER_URL= 'https://api.openweathermap.org/data/2.5/weather';
 
-const WEATHER_KEY= '771f6d345b25dcb9c8322ae68cb87192'
+const WEATHER_KEY= '771f6d345b25dcb9c8322ae68cb87192';
 
 
 function getParkData(parkName){
@@ -17,7 +17,7 @@ function getParkData(parkName){
     api_key: NPS_KEY,
     fields: 'images,entranceFees',
   }
-  return $.getJSON(NPS_URL,query);    
+  return $.getJSON(NPS_URL,query).fail(failPark);    
 }
 
 
@@ -33,27 +33,35 @@ function createParkObject(parks){
 
 
 function renderParkInfo(parkObject){
-  $('main').append(
-    `<section class="park" role="region">
-      <h2>${parkObject.fullName}</h2>
-      <div class="parkImageDiv">
-        <img class="parkImage" src="${parkObject.images[0].url}" alt="${parkObject.images[0].altText}">
-      </div>
-
-      
-      <div class="row">   
-        <div class="col-2 parkInfo">
-          <h3>Park Info</h3>
-          
-            <p><span class="trailInfo">Entrance Fee:</span> $${parkObject.entranceFees[0].cost}</p>
-            <p>${parkObject.entranceFees[0].description}</p>
-            <p><a href='${parkObject.url}'>Park Website</a><br>
-            <a href='${parkObject.directionsUrl}'>Directions to Park</a></p>    
+  if(parkObject){ 
+    console.log(parkObject); 
+    $('main').append(
+      `<section class="park" role="region">
+        <h2>${parkObject.fullName}</h2>
+        <div class="parkImageDiv">
+          <img class="parkImage" src="${parkObject.images[0].url}" alt="${parkObject.images[0].altText}">
         </div>
+
         
-        <div class="col-2 weatherInfo"></div>
-      </div>
-    </section>`)
+        <div class="row">   
+          <div class="col-2 parkInfo">
+            <h3>Park Info</h3>
+            
+              <p><span class="trailInfo">Entrance Fee:</span> $${parkObject.entranceFees[0].cost}</p>
+              <p>${parkObject.entranceFees[0].description}</p>
+              <p><a href='${parkObject.url}'>Park Website</a><br>
+              <a href='${parkObject.directionsUrl}'>Directions to Park</a></p>    
+          </div>
+          
+          <div class="col-2 weatherInfo"></div>
+        </div>
+      </section>`
+    )
+  }
+
+  else{
+    $('main').append(`<section class=fail>No results for your search<section>`);
+  }
 }
 
 
@@ -73,12 +81,15 @@ function getTrailData(weatherData){
   }
   
   return $.getJSON(HIKING_URL,query)
+  .fail(failTrail)
   .then(function(results){
-    results.weather= {temp: weatherData.main.temp,
-      conditions: weatherData.weather[0].description,
-      icon: weatherData.weather[0].icon,
-      wind: weatherData.wind.speed,
-       };
+    if(weatherData.main){
+      results.weather= {temp: weatherData.main.temp,
+        conditions: weatherData.weather[0].description,
+        icon: weatherData.weather[0].icon,
+        wind: weatherData.wind.speed,
+         };
+    }
       return results;
   })
 }
@@ -137,7 +148,8 @@ function getWeatherData(latLon){
     units: 'imperial',
   }
 
-  return $.getJSON(WEATHER_URL,query);
+  return $.getJSON(WEATHER_URL,query).fail(failWeather);
+
 }
 
 
@@ -145,17 +157,23 @@ function failPark(){
   $('.parkImageDiv').addClass('fail').append('Failed to load park information');
 }
 
+
 function failTrail(){
-  $('main').addClass('fail').append('Failed to load trail information');
+  $('main').append(`<section class="fail">Failed to load trail information<section>`);
 }
 
-// function failWeather(){
-//   $('.weatherInfo').append('Weather unavailable');
-//   let weatherData = {
-//     coord: 
-//   }
-//   return ;
-// }
+
+function failWeather(){ 
+  $('.weatherInfo').append('Weather unavailable');
+  
+  let weatherData ={
+    coord: {'lat': query.lat,'lon': query.lon},
+    };
+  
+  getTrailData(weatherData)
+  .fail(failTrail)
+  .done(renderTrailInfo);  
+}
 
 
 
@@ -163,19 +181,20 @@ function failTrail(){
 function handleUserSearch(){
   $('button').on('click',function(event){
     event.preventDefault();
+    
     $('.parkImageDiv').children().remove();
     $('main').prop('hidden',false);
     $('main').children().remove();
+    
     let parkName= $('input').val();
     $('input').val('');
+    
     getParkData(parkName)
-      .fail(failPark)
       .then(createParkObject)
       .done(renderParkInfo)
       .then(getLatLon)
       .then(getWeatherData)
       .then(getTrailData)
-      .fail(failTrail)
       .done(renderTrailInfo);
   });
 }
