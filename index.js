@@ -8,7 +8,7 @@ const HIKING_KEY= '200327700-d3521df4d4b42d0d77bf4b4d0ba20637';
 
 const WEATHER_URL= 'https://api.openweathermap.org/data/2.5/weather';
 
-const WEATHER_KEY= '771f6d345b25dcb9c8322ae68cb87192'
+const WEATHER_KEY= '771f6d345b25dcb9c8322ae68cb87192';
 
 
 function getParkData(parkName){
@@ -17,7 +17,7 @@ function getParkData(parkName){
     api_key: NPS_KEY,
     fields: 'images,entranceFees',
   }
-  return $.getJSON(NPS_URL,query);    
+  return $.getJSON(NPS_URL,query).fail(failPark);    
 }
 
 
@@ -33,26 +33,34 @@ function createParkObject(parks){
 
 
 function renderParkInfo(parkObject){
-  $('.parkImageDiv').append(
-    `<img class="parkImage" src="${parkObject.images[0].url}" alt="${parkObject.images[0].altText}">`)
-
-  $('main').append(
-    `<section class="park" role="region">
-      <h2>${parkObject.fullName}</h2>
-      
-      <div class="row">   
-        <div class="col-2 parkInfo">
-          <h3>Park Info</h3>
-          
-            <p><span class="trailInfo">Entrance Fee:</span> $${parkObject.entranceFees[0].cost}</p>
-            <p>${parkObject.entranceFees[0].description}</p>
-            <p><a href='${parkObject.url}'>Park Website</a><br>
-            <a href='${parkObject.directionsUrl}'>Directions to Park</a></p>    
+  if(parkObject){  
+    $('main').append(
+      `<section class="park" role="region">
+        <h2>${parkObject.fullName}</h2>
+        <div class="parkImageDiv">
+          <img class="parkImage" src="${parkObject.images[0].url}" alt="${parkObject.images[0].altText}">
         </div>
+
         
-        <div class="col-2 weatherInfo"></div>
-      </div>
-    </section>`)
+        <div class="row">   
+          <div class="col-2 parkInfo">
+            <h3>Park Info</h3>
+            
+              <p><span class="trailInfo">Entrance Fee:</span> $${parkObject.entranceFees[0].cost}</p>
+              <p>${parkObject.entranceFees[0].description}</p>
+              <p><a href='${parkObject.url}'>Park Website</a><br>
+              <a href='${parkObject.directionsUrl}'>Directions to Park</a></p>    
+          </div>
+          
+          <div class="col-2 weatherInfo"></div>
+        </div>
+      </section>`
+    )
+  }
+
+  else{
+    $('main').append(`<section class=fail>No results for your search<section>`);
+  }
 }
 
 
@@ -72,49 +80,59 @@ function getTrailData(weatherData){
   }
   
   return $.getJSON(HIKING_URL,query)
+  .fail(failTrail)
   .then(function(results){
-    results.weather= {temp: weatherData.main.temp,
-      conditions: weatherData.weather[0].description,
-      icon: weatherData.weather[0].icon,
-      wind: weatherData.wind.speed,
-       };
+    if(weatherData.main){
+      results.weather= {temp: weatherData.main.temp,
+        conditions: weatherData.weather[0].description,
+        icon: weatherData.weather[0].icon,
+        wind: weatherData.wind.speed,
+         };
+    }
       return results;
   })
 }
 
 
 function renderTrailInfo(data){
-  data.trails.map(function(trail,index){
-    $('main').append(
-      `<section class="trail" name="trail-${index+1}" role="region"> 
-        <h2>${trail.name}</h2>
-        
-        <div class="row">
+  if(data.trails){ 
+    data.trails.map(function(trail,index){
+      $('main').append(
+        `<section class="trail" name="trail-${index+1}" role="region"> 
+          <h2>${trail.name}</h2>
+          
+          <div class="row">
 
-          <div class="col-2">
-            <img class="trailImage" src="${trail.imgMedium}" alt="${trail.name}">
-          </div>
+            <div class="col-2">
+              <img class="trailImage" src="${trail.imgMedium}" alt="${trail.name}">
+            </div>
 
-          <div class="col-2">
-            <div class="trailDiv">
-             <h3>Summary</h3> 
-              <p>${trail.summary}</p> 
-              
-              <h3>Info</h3>
-              <ul>
-                <li><span class="trailInfo">Length:</span> ${trail.length} miles</li>
-                <li><span class="trailInfo">Highest Elevation:</span> ${trail.high} ft.</li>
-                <li><span class="trailInfo">Lowest Elevation:</span> ${trail.low} ft.</li>
-                <li><span class="trailInfo">Difficulty:</span> ${trail.difficulty}</li>
-                <li><span class="trailInfo">Trail Status:</span> ${trail.conditionStatus}</li>
-                <li><span class="trailInfo">Trail Condition:</span> ${trail.conditionDetails}</li>
-              </ul>
+            <div class="col-2">
+              <div class="trailDiv">
+               <h3>Summary</h3> 
+                <p>${trail.summary}</p> 
+                
+                <h3>Info</h3>
+                <ul>
+                  <li><span class="trailInfo">Length:</span> ${trail.length} miles</li>
+                  <li><span class="trailInfo">Highest Elevation:</span> ${trail.high} ft.</li>
+                  <li><span class="trailInfo">Lowest Elevation:</span> ${trail.low} ft.</li>
+                  <li><span class="trailInfo">Difficulty:</span> ${trail.difficulty}</li>
+                  <li><span class="trailInfo">Trail Status:</span> ${trail.conditionStatus}</li>
+                  <li><span class="trailInfo">Trail Condition:</span> ${trail.conditionDetails}</li>
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
-      </section>`);
- });
+        </section>`);
+   });
+  }
 
+  else{
+    $('main').append(`<section class="fail">No trail information available for search<section>`)
+  }
+
+  if(data.weather){ 
     $('.park div.weatherInfo').append(
       `<h3>Weather</h3>
         <div class="weatherBorder">
@@ -125,6 +143,7 @@ function renderTrailInfo(data){
           <li><span class="trailInfo">Conditions:</span> ${data.weather.conditions}</li>
          </ul>
         </div>`);
+  }
 }
 
 
@@ -136,30 +155,52 @@ function getWeatherData(latLon){
     units: 'imperial',
   }
 
-  return $.getJSON(WEATHER_URL,query);
- 
+  return $.getJSON(WEATHER_URL,query).fail(failWeather);
+
+}
+
+
+function failPark(){
+  $('.parkImageDiv').addClass('fail').append('Failed to load park information');
+}
+
+
+function failTrail(){
+  $('main').append(`<section class="fail">Failed to load trail information<section>`);
+}
+
+
+function failWeather(){ 
+  $('.weatherInfo').append('Weather unavailable');
+  
+  let weatherData ={
+    coord: {'lat': query.lat,'lon': query.lon},
+    };
+  
+  getTrailData(weatherData)
+  .fail(failTrail)
+  .done(renderTrailInfo);  
 }
 
 
 function handleUserSearch(){
   $('button').on('click',function(event){
     event.preventDefault();
+    
     $('.parkImageDiv').children().remove();
     $('main').prop('hidden',false);
     $('main').children().remove();
+    
     let parkName= $('input').val();
     $('input').val('');
+    
     getParkData(parkName)
       .then(createParkObject)
-      .done(data=>console.log(data))
       .done(renderParkInfo)
       .then(getLatLon)
       .then(getWeatherData)
-      .done(data=>console.log(data))
       .then(getTrailData)
-      .done(data=>console.log(data))
-      .done(renderTrailInfo)
-      .done(data=>console.log(data));
+      .done(renderTrailInfo);
   });
 }
 

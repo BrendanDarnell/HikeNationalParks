@@ -1,7 +1,5 @@
 [class*="col-"] {
   float: left;
-  /*padding: 2%;*/
-  /*border: 1px solid red;*/
 }
 
 .row::after {
@@ -49,15 +47,20 @@
 		padding-left: 4%;
 	}
 
-	header {
-		height: 90vh;
-	}
-
 	.weatherBorder {
 	max-width: 55%;
 	}
 
 	button {
 		width: 3%;
+	}
+
+	.parkImage{
+		object-position: center center;
+	}
+
+	.parkImageDiv{
+		height: 100vh;
+		margin-bottom: 2%;
 	}
 }

@@ -1,10 +1,5 @@
 * {
 	box-sizing: border-box;
-	/*color: #CAB5AD;*/
-	/*color: #D4A259;*/
-	/*color: #9A7E6C;*/
-	/*color: #355E3B;*/
-	/*color: white;*/
 	color: white;
 }
 
@@ -22,12 +17,11 @@ body {
 
 header {
 	color: white;
-	height: 75vh;
+	height: 30vh;
 	width: 104%;
 	margin-left: -2%;
-	position: relative;
-	margin-bottom: 6%;
-	min-height: 350px;
+	min-height: 150px;
+	max-height: 250px;
 }
 
 h1 {
@@ -48,11 +42,11 @@ h2 {
 
 .parkImageDiv{
 	width: 100%;
-	height: 75%;
+	height: 80vh;
 }
 
 form {
-	height: 10%;
+	height: 40%;
 	width: 100%;
 }
 
@@ -110,11 +104,6 @@ div{
 	object-position: bottom center;
 }
 
-.parkImage {
-	border-top: solid 7px black;
-	border-bottom: solid 7px black;
-}
-
 .trailImage {
 	max-height: 500px;
 }
@@ -150,4 +139,13 @@ div{
 .trailInfo {
 	color: #D4A259;
 	font-weight: 600;
+}
+
+.fa-tree {
+	color: #A2C423; 
+}
+
+.fail {
+	color: red;
+	font-size: 1.5em;
 }
