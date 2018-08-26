@@ -33,8 +33,7 @@ function createParkObject(parks){
 
 
 function renderParkInfo(parkObject){
-  if(parkObject){ 
-    console.log(parkObject); 
+  if(parkObject){  
     $('main').append(
       `<section class="park" role="region">
         <h2>${parkObject.fullName}</h2>
@@ -96,37 +95,44 @@ function getTrailData(weatherData){
 
 
 function renderTrailInfo(data){
-  data.trails.map(function(trail,index){
-    $('main').append(
-      `<section class="trail" name="trail-${index+1}" role="region"> 
-        <h2>${trail.name}</h2>
-        
-        <div class="row">
+  if(data.trails){ 
+    data.trails.map(function(trail,index){
+      $('main').append(
+        `<section class="trail" name="trail-${index+1}" role="region"> 
+          <h2>${trail.name}</h2>
+          
+          <div class="row">
 
-          <div class="col-2">
-            <img class="trailImage" src="${trail.imgMedium}" alt="${trail.name}">
-          </div>
+            <div class="col-2">
+              <img class="trailImage" src="${trail.imgMedium}" alt="${trail.name}">
+            </div>
 
-          <div class="col-2">
-            <div class="trailDiv">
-             <h3>Summary</h3> 
-              <p>${trail.summary}</p> 
-              
-              <h3>Info</h3>
-              <ul>
-                <li><span class="trailInfo">Length:</span> ${trail.length} miles</li>
-                <li><span class="trailInfo">Highest Elevation:</span> ${trail.high} ft.</li>
-                <li><span class="trailInfo">Lowest Elevation:</span> ${trail.low} ft.</li>
-                <li><span class="trailInfo">Difficulty:</span> ${trail.difficulty}</li>
-                <li><span class="trailInfo">Trail Status:</span> ${trail.conditionStatus}</li>
-                <li><span class="trailInfo">Trail Condition:</span> ${trail.conditionDetails}</li>
-              </ul>
+            <div class="col-2">
+              <div class="trailDiv">
+               <h3>Summary</h3> 
+                <p>${trail.summary}</p> 
+                
+                <h3>Info</h3>
+                <ul>
+                  <li><span class="trailInfo">Length:</span> ${trail.length} miles</li>
+                  <li><span class="trailInfo">Highest Elevation:</span> ${trail.high} ft.</li>
+                  <li><span class="trailInfo">Lowest Elevation:</span> ${trail.low} ft.</li>
+                  <li><span class="trailInfo">Difficulty:</span> ${trail.difficulty}</li>
+                  <li><span class="trailInfo">Trail Status:</span> ${trail.conditionStatus}</li>
+                  <li><span class="trailInfo">Trail Condition:</span> ${trail.conditionDetails}</li>
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
-      </section>`);
- });
+        </section>`);
+   });
+  }
 
+  else{
+    $('main').append(`<section class="fail">No trail information available for search<section>`)
+  }
+
+  if(data.weather){ 
     $('.park div.weatherInfo').append(
       `<h3>Weather</h3>
         <div class="weatherBorder">
@@ -137,6 +143,7 @@ function renderTrailInfo(data){
           <li><span class="trailInfo">Conditions:</span> ${data.weather.conditions}</li>
          </ul>
         </div>`);
+  }
 }
 
 
@@ -174,8 +181,6 @@ function failWeather(){
   .fail(failTrail)
   .done(renderTrailInfo);  
 }
-
-
 
 
 function handleUserSearch(){

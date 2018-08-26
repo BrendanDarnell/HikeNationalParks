@@ -21,6 +21,7 @@ header {
 	width: 104%;
 	margin-left: -2%;
 	min-height: 150px;
+	max-height: 250px;
 }
 
 h1 {
